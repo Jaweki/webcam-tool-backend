@@ -1,25 +1,18 @@
 {
   "name": "webcam-tool",
-  "version": "1.0.0",
-  "description": "This is the backend of a webconferencing tool for video and audio communication.",
-  "main": "index.js",
+  "version": "0.0.0",
+  "type": "module",
+  "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "clear && nodemon app.js"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Jaweki/webcam-tool-backend.git"
+  "dependencies": {
+    "express": "^4.18.2",
+    "nodemon": "^3.1.0",
+    "socket.io": "^4.7.4"
   },
-  "keywords": [
-    "webcam-tool",
-    "backend",
-    "webconference",
-    "express.js"
-  ],
-  "author": "Jack Weru Kioni",
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/Jaweki/webcam-tool-backend/issues"
-  },
-  "homepage": "https://github.com/Jaweki/webcam-tool-backend#readme"
+  "devDependencies": {
+    "@babel/core": "^7.23.9",
+    "@babel/preset-env": "^7.23.9"
+  }
 }
