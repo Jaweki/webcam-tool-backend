@@ -1,6 +1,6 @@
 import express from 'express'
 import { Server } from 'socket.io'
-import { createServer } from 'node:http'
+import { createServer } from 'node:http2'
 import cors from 'cors'
 
 const port = 4000
