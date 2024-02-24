@@ -1,17 +1,14 @@
-const cool = require('cool-ascii-faces')
+const cors = require('cors')
 const express = require('express')
-const path = require('path')
 const { Server } = require('socket.io');
 const { createServer } = require('node:http')
 
 const PORT = process.env.PORT || 5001
 
-const app = express().use(express.static(path.join(__dirname, 'public')))
-  .set('views', path.join(__dirname, 'views'))
-  .set('view engine', 'ejs')
-  .get('/', (req, res) => res.render('pages/index'))
-  .get('/cool', (req, res) => res.send(cool()))
-
+const app = express()
+app.use(cors({
+  origin: '*'
+}))
 const server = createServer(app, {
   cors: {
     origin: '*'
