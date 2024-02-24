@@ -12,7 +12,11 @@ const app = express().use(express.static(path.join(__dirname, 'public')))
   .get('/', (req, res) => res.render('pages/index'))
   .get('/cool', (req, res) => res.send(cool()))
 
-const server = createServer(app)
+const server = createServer(app, {
+  cors: {
+    origin: '*'
+  }
+})
 const io = new Server(server)
 
 
