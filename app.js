@@ -10,7 +10,7 @@ const io = new Server(server)
 
 app.use(cors())
 
-app.get('/', (req, res) => {
+app.get('/test', (req, res) => {
   console.log("new client request to seek server status")
   res.send(`Running successfull on heroku; time: ${Date()} `)
 });
