@@ -1,0 +1,25 @@
+{
+  "name": "webcam-tool",
+  "version": "1.0.0",
+  "description": "This is the backend of a webconferencing tool for video and audio communication.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Jaweki/webcam-tool-backend.git"
+  },
+  "keywords": [
+    "webcam-tool",
+    "backend",
+    "webconference",
+    "express.js"
+  ],
+  "author": "Jack Weru Kioni",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Jaweki/webcam-tool-backend/issues"
+  },
+  "homepage": "https://github.com/Jaweki/webcam-tool-backend#readme"
+}
