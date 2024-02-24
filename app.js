@@ -10,6 +10,10 @@ const io = new Server(server)
 
 app.use(cors())
 
+app.get('/', (req, res) => {
+  res.send(`Running successfull on heroku; time: ${Date.now()} `)
+});
+
 io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('user got disconnected.')
