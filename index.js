@@ -4,18 +4,17 @@ const path = require('path')
 const { Server } = require('socket.io');
 const { createServer } = require('node:http')
 
-const app = express()
+const PORT = process.env.PORT || 5001
+
+const app = express().use(express.static(path.join(__dirname, 'public')))
+  .set('views', path.join(__dirname, 'views'))
+  .set('view engine', 'ejs')
+  .get('/', (req, res) => res.render('pages/index'))
+  .get('/cool', (req, res) => res.send(cool()))
+
 const server = createServer(app)
 const io = new Server(server)
 
-const PORT = process.env.PORT || 5001
-
-
-server.use(express.static(path.join(__dirname, 'public')))
-server.set('views', path.join(__dirname, 'views'))
-server.set('view engine', 'ejs')
-server.get('/', (req, res) => res.render('pages/index'))
-server.get('/cool', (req, res) => res.send(cool()))
 
 io.on('connection', (socket) => {
   console.log("new use connected to Websocket")
