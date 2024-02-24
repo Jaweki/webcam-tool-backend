@@ -12,7 +12,7 @@ app.use(cors())
 
 app.get('/', (req, res) => {
   console.log("new client request to seek server status")
-  res.send(`Running successfull on heroku; time: ${Date.now()} `)
+  res.send(`Running successfull on heroku; time: ${Date()} `)
 });
 
 io.on('connection', (socket) => {
