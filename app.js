@@ -11,10 +11,12 @@ const io = new Server(server)
 app.use(cors())
 
 app.get('/', (req, res) => {
+  console.log("new client request to seek server status")
   res.send(`Running successfull on heroku; time: ${Date.now()} `)
 });
 
 io.on('connection', (socket) => {
+  console.log("new client connected to websocket");
   socket.on('disconnect', () => {
     console.log('user got disconnected.')
   })
