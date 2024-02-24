@@ -7,6 +7,7 @@ const app = express()
 const server = createServer(app)
 const io = new Server(server)
 
+
 io.on('connection', (socket) => {
   socket.on('disconnect', () => {
     console.log('user got disconnected.')
