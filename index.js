@@ -1,30 +1,28 @@
 const cors = require('cors')
 const express = require('express')
-const { Server } = require('socket.io');
 const { createServer } = require('node:http')
+
+const app = express()
+const server = createServer(app)
+
+const io = require('socket.io')(server, {
+  cors: {
+    origin: "*",
+    methods: ["GET", "POST"]
+  }
+});
 
 const PORT = process.env.PORT || 5001
 
-const app = express()
-app.use(cors({
-  origin: '*'
-}))
-const server = createServer(app, {
-  cors: {
-    origin: '*'
-  }
-})
-const io = new Server(server)
-
-
 io.on('connection', (socket) => {
-  console.log("new use connected to Websocket")
+  console.log("new user connected to Websocket")
 
   socket.on('disconnect', () => {
     console.log('a user got disconnected')
   })
 
   socket.on('video_data', (videoChunk) => {
+    if (videoChunk) {console.log(typeof videoChunk, videoChunk)}
     io.emit('broadcast_data', videoChunk)
   })
 })
