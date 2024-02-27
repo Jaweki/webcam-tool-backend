@@ -1,30 +1,85 @@
-const cors = require('cors')
-const express = require('express')
-const { createServer } = require('node:http')
+const cors = require('cors');
+const express = require('express');
+const { createServer } = require('http');
 
-const app = express()
-const server = createServer(app)
-
+const app = express();
+const server = createServer(app);
 const io = require('socket.io')(server, {
   cors: {
-    origin: "*",
+    origin: "*",  // Specify your client's origin
     methods: ["GET", "POST"]
   }
 });
 
-const PORT = process.env.PORT || 5001
+const PORT = process.env.PORT || 5001;
+
+const peerConncetionSignals = {
+  callerSocketId: "",
+  callerSdpOffer: "",
+  calleeSdpAnswer: "",
+  callerIcecandidates: [] 
+}
 
 io.on('connection', (socket) => {
-  console.log("new user connected to Websocket")
+  const clientId = socket.handshake.query.t
+
+  console.log("New user connected to WebSocket as: ", clientId);
 
   socket.on('disconnect', () => {
-    console.log('a user got disconnected')
+    console.log('A user got disconnected');
+  });
+
+  // Caller event handlers
+  socket.on("set_caller_id", (callerId) => {
+    peerConncetionSignals.callerSocketId = callerId
+    io.emit("available_room_session", callerId)
+    console.log(callerId)
   })
 
-  socket.on('video_data', (videoChunk) => {
-    if (videoChunk) {console.log(typeof videoChunk, videoChunk)}
-    io.emit('broadcast_data', videoChunk)
-  })
-})
+  socket.on("set_caller_icecandidate", (RTCIceCandidate) => {
 
-server.listen(PORT, () => console.log(`Listening on ${ PORT }`))
+    peerConncetionSignals.callerIcecandidates.forEach(candidateObj => {
+      if (candidateObj.candidate === RTCIceCandidate.candidate) {
+        return;
+      } else {
+        peerConncetionSignals.callerIcecandidates.push(RTCIceCandidate)
+      }
+    })
+    
+  })
+
+  socket.on('caller_sdp_offer', (incomingCallerSDPOffer) => {
+    
+    peerConncetionSignals.callerSdpOffer = incomingCallerSDPOffer
+  
+  });
+
+
+  socket.on("callee_sdp_answer", (calleeSdpAnswer) => {
+    io.emit("caller_awaited_sdp_answer", calleeSdpAnswer)
+  })
+
+
+  // Callee event handlers
+  socket.on("request_caller_sdp_offer", (roomID) => {
+
+    if (peerConncetionSignals.callerSocketId == roomID) {
+
+      socket.emit("available_caller_sdp_offer", peerConncetionSignals.callerSdpOffer)
+    } else {
+      socket.emit("status_update", "Room Session Expired")
+    }
+  })
+
+  socket.on("request_caller_ice_candidates", (roomId) => {
+
+    if (peerConncetionSignals.callerSocketId == roomId) {
+      peerConncetionSignals.callerIcecandidates.forEach(iceCandidate => {
+        socket.emit("caller_icecandidates", iceCandidate)
+      } )
+    }
+  })
+
+});
+
+server.listen(PORT, () => console.log(`Listening on ${PORT}`));
