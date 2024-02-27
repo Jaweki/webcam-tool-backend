@@ -13,6 +13,12 @@ const io = require('socket.io')(server, {
 
 const PORT = process.env.PORT || 5001;
 
+const openRoomIds = [];
+
+app.get("/open-rooms", (req, res) => {
+  res.send(JSON.stringify(openRoomIds))
+})
+
 const peerConncetionSignals = {
   callerSocketId: "",
   callerSdpOffer: "",
@@ -32,6 +38,7 @@ io.on('connection', (socket) => {
   // Caller event handlers
   socket.on("set_caller_id", (callerId) => {
     peerConncetionSignals.callerSocketId = callerId
+    openRoomIds.push(callerId);
     io.emit("available_room_session", callerId)
     console.log(callerId)
   })
