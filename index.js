@@ -12,7 +12,8 @@ const io = require('socket.io')(server, {
 });
 
 app.use(cors({
-  origin: "*"
+  origin: "*",
+  methods: ["GET, POST"]
 }))
 
 const PORT = process.env.PORT || 5001;
