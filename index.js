@@ -11,6 +11,10 @@ const io = require('socket.io')(server, {
   }
 });
 
+app.use(cors({
+  origin: "*"
+}))
+
 const PORT = process.env.PORT || 5001;
 
 const openRoomIds = [];
