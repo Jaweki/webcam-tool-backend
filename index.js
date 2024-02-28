@@ -69,6 +69,7 @@ io.on('connection', (socket) => {
 
 
   socket.on("callee_sdp_answer", (calleeSdpAnswer) => {
+    console.log("callee responded with sdp answer: ", calleeSdpAnswer)
     io.emit("caller_awaited_sdp_answer", calleeSdpAnswer)
   })
 
