@@ -18,10 +18,10 @@ app.use(cors({
 
 const PORT = process.env.PORT || 5001;
 
-const openRoomIds = [];
+let openRoomIds = null;
 
 app.get("/open-rooms", (req, res) => {
-  console.log(openRoomIds)
+  console.log("New User seeked for Open Room Id: ", openRoomIds)
   res.json(openRoomIds)
 })
 
@@ -44,7 +44,7 @@ io.on('connection', (socket) => {
   // Caller event handlers
   socket.on("set_caller_id", (callerId) => {
     peerConncetionSignals.callerSocketId = callerId
-    openRoomIds.push(callerId);
+    openRoomIds = callerId;
     io.emit("available_room_session", callerId)
     console.log("new caller: ", callerId)
   })
