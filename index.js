@@ -86,6 +86,7 @@ io.on('connection', (socket) => {
 
   socket.on("request_caller_ice_candidates", (roomId) => {
 
+    console.log("callee ruquesting caller related ice candidates: ", peerConncetionSignals.callerSocketId, roomId)
     if (peerConncetionSignals.callerSocketId == roomId) {
       peerConncetionSignals.callerIcecandidates.forEach(iceCandidate => {
         socket.emit("caller_icecandidates", iceCandidate)
