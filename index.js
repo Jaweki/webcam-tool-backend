@@ -56,6 +56,7 @@ io.on('connection', (socket) => {
         return;
       } else {
         peerConncetionSignals.callerIcecandidates.push(RTCIceCandidate)
+        io.emit("caller_icecandidates", RTCIceCandidate)
       }
     })
     
